@@ -1,7 +1,8 @@
+import Header from '../../todo-app/src/Header.js'
 function App() {
   return (
       <div>
-        <h1>hello react2</h1>
+        <Header />
       </div>
   
   );
