@@ -26,8 +26,7 @@ function AddToDo(props) {
       id: Date.now(),
       todoTitle: formData.Title,
       dueDate: formData.DueDate,
-      completeDate: null,
-      status: "pending",
+      completeDate: null,status: "pending",
     };
 
     settodo([...todo, newTask]);
