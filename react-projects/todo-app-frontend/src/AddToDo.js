@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { callCreateApi } from './backendAPI.js';
+import { callCreateApi,callAllApi } from './backendAPI.js';
 
 function AddToDo(props) {
   const todo = props.todo;
-  const settodo = props.setTodo;
+  const setTodo = props.setTodo;
 
   const [formData, setFormData] = useState({
     todoTitle: "",
@@ -31,6 +31,9 @@ function AddToDo(props) {
       status: "pending",
     };
     await callCreateApi('/create-todo', newTask);
+    
+const todoList=await callAllApi('/read-todos');
+  setTodo(todoList)
   };
 
   return (

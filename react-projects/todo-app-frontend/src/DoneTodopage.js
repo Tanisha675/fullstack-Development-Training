@@ -1,5 +1,5 @@
 function DoneTodopage(props) {
-  let todoarr = props.todo;
+  let Arr = props.todo;
 
   return (
     <div className="bg-purple-100 min-h-[300px] flex justify-center items-center py-10">
@@ -14,18 +14,18 @@ function DoneTodopage(props) {
           </thead>
           <tbody>
             {
-              todoarr.map((todo, index) => {
-                if (todo.status === "completed") {
+              Arr
+              .filter(todo => todo.status === 'completed')
+              .map((todo, index) => {
                   return (
-                    <tr key={todo.id}>
+                    <tr key={todo.todoId}>
                       <td className="py-3 px-4 border border-gray-300">{todo.todoTitle}</td>
                       <td className="py-3 px-4 border border-gray-300">{todo.status}</td>
-                      <td className="py-3 px-4 border border-gray-300 text-center">{todo.completeDate?.toLocaleDateString()}</td>
+                      <td className="py-3 px-4 border border-gray-300 text-center">{todo.completionDate 
+                      ? new Date(todo.completionDate).toLocaleDateString()
+                        : "—"}</td>
                     </tr>
                   );
-                } else {
-                  return null;
-                }
               })
             }
           </tbody>

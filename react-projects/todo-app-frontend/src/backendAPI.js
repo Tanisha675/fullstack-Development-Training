@@ -12,5 +12,41 @@ async function callCreateApi(apipath, body) {
   }
 }
 
+async function callAllApi(apipath){
+  try {
+    const response = await axios.get(host + apipath);
+    console.log(`callApi response ${JSON.stringify(response.data)}`);
+    return response.data;   
+  } catch(error) {
+    alert(`callApi call got failed, error ${error}`);
+    return [];
+  }
+}
 
-export {callCreateApi}
+/* 
+async function callApi(apipath,params){
+return await axios.get(host+apipath,{'params':params})
+.then(response =>{
+  console.log(`callCreateApi response ${JSON.stringify(response.data)}`);
+    return response.data;
+  } catch (error) {
+    alert(`api call got failed, error: ${error}`);
+}
+*/
+
+async function callUpdateApi(apipath, params, body) {
+  return await axios.patch(host + apipath, body, { params: params })
+    .then(response => {
+      console.log(`callUpdateApi response ${JSON.stringify(response.data)}`);
+      return response.data;
+    })
+    .catch(error => {
+      alert(`api call got failed, error: ${error}`);
+      return null;
+    });
+}
+
+
+
+
+export {callCreateApi,callAllApi,callUpdateApi}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              

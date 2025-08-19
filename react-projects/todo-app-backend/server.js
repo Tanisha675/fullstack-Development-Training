@@ -55,9 +55,9 @@ app.get('/read-todo',async (req,res)=>{
 //4..
 app.patch('/update-todo',async (req,res)=>{
     try{
-        let queryToDoId=req.query.todoid;
+        let querytodoId=req.query.todoId;
         let reqBody=req.body;
-        let result=await db.collection('todo').updateOne({"todoid":queryToDoId},{$set:reqBody})
+        let result=await db.collection('todo').updateOne({"todoId":querytodoId},{$set:reqBody})
         if(result.matchedCount===0){
             res.status(404).json({msg:'todo not found'})
         }else

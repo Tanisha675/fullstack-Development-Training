@@ -5,11 +5,21 @@ import Showtodo from './Showtodo.js'
 import DoneTodopage from './DoneTodopage.js'
 import Homepage from './Homepage.js'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { useState } from 'react'
+import { useState,useEffect} from 'react'
+import {callAllApi} from './backendAPI.js'
+
+async function fetchtodo(setTodo){
+  const todoList=await callAllApi('/read-todos');
+  setTodo(todoList)
+}
 
 function App() {
   const [todo, setTodo] = useState([]);
   const [doneArr, setDoneArr] = useState([]);
+
+  useEffect(()=>{
+    fetchtodo(setTodo)
+  },[]);
 
   return (
     <BrowserRouter>
@@ -19,7 +29,7 @@ function App() {
           <Route path='/' element={<Homepage />} />
           <Route path='/add' element={<AddToDo todo={todo} setTodo={setTodo} />} />
           <Route path='/show' element={<Showtodo todo={todo} setTodo={setTodo} setDone={setDoneArr} />} />
-          <Route path='/done' element={<DoneTodopage todo={doneArr} />} />
+          <Route path='/done' element={<DoneTodopage todo={todo} />} />
         </Routes>
         <Footer />
       </div>

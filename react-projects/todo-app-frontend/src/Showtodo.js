@@ -1,16 +1,19 @@
+import { callAllApi, callUpdateApi } from "./backendAPI";
 function Showtodo(props) {
   const Arr = props.todo;
+  console.log(JSON.stringify(Arr))
 
-  function handleClick(e, todoId) {
-    const completedTodo = Arr.find(todo => todo.id === todoId);
-    completedTodo.status = "completed";
-    completedTodo.completeDate = new Date();
-    const updatedArr = Arr.filter(todo => todo.id !== todoId);
-    props.setTodo(updatedArr);
-    props.setDone(prev => [...prev, completedTodo]);
+  async function handleClick(e, todoId) {
+    await callUpdateApi(
+      '/update-todo',
+      { 'todoId': todoId },
+      { status: 'completed', completionDate: new Date() }
+    )
 
-    alert("Todo Completed");
+    let todoList = await callAllApi('/read-todos')
+    props.setTodo(todoList);
   }
+
 
   return (
     <div className="bg-purple-100 min-h-[300px] flex justify-center items-center py-10">
@@ -30,21 +33,23 @@ function Showtodo(props) {
                   <td colSpan="3" className="text-center py-4 text-gray-500">No todos available</td>
                 </tr>
               ) : (
-                Arr.map((value, index) => (
-                  <tr key={index} className="hover:bg-purple-50">
-                    <td className="py-3 px-4 border border-gray-300">{value.todoTitle}</td>
-                    <td className="py-3 px-4 border border-gray-300">{value.dueDate}</td>
-                    <td className="py-3 px-4 border border-gray-300 text-center">
-                      <button
-                        onClick={(e) => handleClick(e, value.id)}
-                        className="text-green-600 hover:text-green-800 text-xl"
-                        title="Mark as Done"
-                      >
-                        ✅
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                Arr
+                  .filter(todo => todo.status !== 'completed')
+                  .map((value, index) => (
+                    <tr key={value.todoId} className="hover:bg-purple-50">
+                      <td className="py-3 px-4 border border-gray-300">{value.todoTitle}</td>
+                      <td className="py-3 px-4 border border-gray-300">{value.dueDate}</td>
+                      <td className="py-3 px-4 border border-gray-300 text-center">
+                        <button
+                          onClick={(e) => handleClick(e, value.todoId)}
+                          className="text-green-600 hover:text-green-800 text-xl"
+                          title="Mark as Done"
+                        >
+                          ✅
+                        </button>
+                      </td>
+                    </tr>
+                  ))
               )
             }
           </tbody>
@@ -53,5 +58,6 @@ function Showtodo(props) {
     </div>
   );
 }
+
 
 export default Showtodo;
